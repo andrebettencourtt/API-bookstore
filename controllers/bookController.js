@@ -1,18 +1,39 @@
 const express = require("express")
+const Books = require('../models/book')
 
 exports.get = (req, res, next ) => {
-    res.status(200).json({
-        livros: [{ title: "João e Maria", ano: "1990", ISBNs: "1234235325"}]
-    })
+    Books.find()
+        .then(result => {
+            res.status(201).json({
+                book: result
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        })
 };
 
 exports.post = (req, res, next ) => {
+    
     const title = req.body.title;
     const ano = req.body.ano;
-    const isbns = req.body.ISBNs;
+    const isbns = req.body.isbns;
 
-    res.status(201).json({
-        message: "Salvo com sucesso!",
-        post: { id: new Date().toISOString(), title: title, ano: ano, isbns: isbns}
+    const newBook = new Books ({
+        title: title,
+        ano: ano,
+        isbns: isbns,
     })
-}
+
+    newBook 
+        .save()
+        .then((result) => {
+            console.log(result)
+
+            res.status(201).json({
+                message: "Livro salvo com sucesso",
+                error: false,
+            })
+        })
+        .catch((err) => console.log(err));
+    }
