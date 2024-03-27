@@ -1,4 +1,3 @@
-const express = require("express")
 const Books = require('../models/book')
 
 exports.get = (req, res, next ) => {
