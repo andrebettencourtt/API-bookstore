@@ -3,10 +3,12 @@ const app = express()
 
 const saveRoutes = require("./routes/saveRoutes")
 const listRoutes = require("./routes/listRoutes")
+const authRoutes = require("./routes/authRoutes")
 const { default: mongoose } = require("mongoose")
 
 app.use(express.json())
 
+app.use(authRoutes)
 app.use(saveRoutes)
 app.use(listRoutes)
 
